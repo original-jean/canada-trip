@@ -237,6 +237,30 @@
   }
   .location-btn:hover { background: #b8ead0; }
 
+  /* Checklist */
+  .cl-group { margin-bottom: 1.25rem; }
+  .cl-group-title { font-size: 12px; font-weight: 700; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .cl-list { display: flex; flex-direction: column; gap: 4px; }
+  .cl-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--color-background-secondary); border-radius: 8px; transition: background 0.1s; }
+  .cl-item:hover { background: var(--color-background-primary); }
+  .cl-cb { width: 15px; height: 15px; accent-color: #1D9E75; flex-shrink: 0; cursor: pointer; }
+  .cl-text { font-size: 13px; color: var(--color-text-primary); flex: 1; line-height: 1.4; }
+  .cl-item.done .cl-text { text-decoration: line-through; color: var(--color-text-tertiary); }
+  .cl-del { background: none; border: none; color: #ccc; font-size: 12px; cursor: pointer; padding: 2px 4px; border-radius: 4px; flex-shrink: 0; transition: color 0.1s; }
+  .cl-del:hover { color: #D85A30; }
+  .cl-add-wrap { display: flex; gap: 8px; margin-top: 1rem; align-items: center; flex-wrap: wrap; }
+  .cl-cat-sel { padding: 8px 10px; border: 1px solid var(--color-border-secondary); border-radius: 8px; font-size: 12px; background: var(--color-background-primary); color: var(--color-text-primary); flex-shrink: 0; }
+  .cl-new-input { flex: 1; min-width: 160px; padding: 8px 12px; border: 1px solid var(--color-border-secondary); border-radius: 8px; font-size: 13px; background: var(--color-background-primary); color: var(--color-text-primary); outline: none; }
+  .cl-new-input:focus { border-color: #1D9E75; }
+  .cl-add-btn { padding: 8px 16px; background: #1D9E75; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  .cl-add-btn:hover { background: #178a64; }
+  @media (max-width: 640px) {
+    .cl-text { font-size: 12px; }
+    .cl-add-wrap { gap: 6px; }
+    .cl-cat-sel { font-size: 11px; padding: 7px 8px; }
+    .cl-new-input { font-size: 12px; }
+  }
+
   /* Tab edit hint */
   .day-tab[contenteditable] { outline: 1.5px solid #1D9E75 !important; border-radius: var(--border-radius-md); cursor: text; }
 </style>
@@ -494,10 +518,15 @@
     <!-- Title + button overlay -->
     <div class="hero-content">
       <div class="hero-title" contenteditable="true" spellcheck="false">2026 Canada — Rockies &amp; Yellowknife</div>
-      <button onclick="showDay('dinfo')" class="info-top-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-        General Info
-      </button>
+      <div style="display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">
+        <button onclick="showDay('dinfo')" class="info-top-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+          General Info
+        </button>
+        <button onclick="showDay('dchecklist')" class="info-top-btn" style="background:#FF8F00;box-shadow:0 1px 6px rgba(255,143,0,0.35);">
+          ✅ 체크리스트
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1105,80 +1134,73 @@
       </div>
     </div>
 
-    <div style="font-size:13px;font-weight:600;color:var(--color-text-primary);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;">✅ 여행 전 필수 체크사항</div>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:1rem;">
-      <div style="font-size:12px;color:var(--color-text-secondary);font-weight:600;margin-top:4px;">예약 완료 확인</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 렌터카 예약 (캘거리 공항 픽업·반납)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 모레인 레이크 셔틀 예약 (Parks Canada 또는 Moraine Lake Bus Co.)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 밴프 곤돌라 사전 예약 (온라인 할인)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 멀린 레이크 크루즈 예약 (banffjaspercollection.com)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 콜럼비아 아이스필드 설상차 예약
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 오로라빌리지 뷰잉투어 예약 (2회: 10/2, 10/3)
-        </label>
-      </div>
+  </div>
 
-      <div style="font-size:12px;color:var(--color-text-secondary);font-weight:600;margin-top:10px;">서류 및 입국</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> eTA (캐나다 전자여행허가) 발급 완료
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 여권 유효기간 6개월 이상 확인
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 여행자 보험 가입
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 국제운전면허증 발급
-        </label>
-      </div>
+  <!-- CHECKLIST PANEL -->
+  <div class="day-panel" id="dchecklist">
+    <div class="day-header">
+      <div class="day-title">✅ 체크리스트</div>
+      <div class="day-badge badge-transit">여행 준비</div>
+      <div class="day-meta">항목 추가·삭제 가능</div>
+    </div>
 
-      <div style="font-size:12px;color:var(--color-text-secondary);font-weight:600;margin-top:10px;">캐나다 로키 준비물</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> Parks Canada 연간 패스 또는 Discovery Pass (국립공원 입장권)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 트레킹화 (방수, 발목 지지)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 레이어드 방한 의류 (9월 말 영하 가능)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#1D9E75;"> 선글라스 및 자외선차단제
-        </label>
+    <!-- 예약 -->
+    <div class="cl-group">
+      <div class="cl-group-title">📋 예약 완료 확인</div>
+      <div class="cl-list" id="cl-booking">
+        <div class="cl-item" data-id="b1"><input type="checkbox" class="cl-cb" data-key="b1" accent-color="#1D9E75"><span class="cl-text">렌터카 예약 (캘거리 공항 픽업·반납)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="b2"><input type="checkbox" class="cl-cb" data-key="b2"><span class="cl-text">모레인 레이크 셔틀 예약 (Parks Canada 또는 Moraine Lake Bus Co.)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="b3"><input type="checkbox" class="cl-cb" data-key="b3"><span class="cl-text">밴프 곤돌라 사전 예약 (온라인 할인)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="b4"><input type="checkbox" class="cl-cb" data-key="b4"><span class="cl-text">멀린 레이크 크루즈 예약 (banffjaspercollection.com)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="b5"><input type="checkbox" class="cl-cb" data-key="b5"><span class="cl-text">콜럼비아 아이스필드 설상차 예약</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="b6"><input type="checkbox" class="cl-cb" data-key="b6"><span class="cl-text">오로라빌리지 뷰잉투어 예약 (2회: 10/1, 10/2)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
       </div>
+    </div>
 
-      <div style="font-size:12px;color:var(--color-text-secondary);font-weight:600;margin-top:10px;">옐로나이프 오로라 준비물</div>
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#7B5EA7;"> 극한 방한복 (체감 -10°C 이하 대비)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#7B5EA7;"> 핫팩 (손·발 각 여분 충분히)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#7B5EA7;"> 카메라 여분 배터리 (추위에 빨리 소모)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#7B5EA7;"> 삼각대 (장노출 오로라 촬영용)
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-primary);cursor:pointer;">
-          <input type="checkbox" style="margin-top:2px;accent-color:#7B5EA7;"> SpaceWeatherLive 앱 설치 (KP 지수 확인)
-        </label>
+    <!-- 서류 -->
+    <div class="cl-group">
+      <div class="cl-group-title">🛂 서류 및 입국</div>
+      <div class="cl-list" id="cl-docs">
+        <div class="cl-item" data-id="d1"><input type="checkbox" class="cl-cb" data-key="d1"><span class="cl-text">eTA (캐나다 전자여행허가) 발급 완료</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="d2"><input type="checkbox" class="cl-cb" data-key="d2"><span class="cl-text">여권 유효기간 6개월 이상 확인</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="d3"><input type="checkbox" class="cl-cb" data-key="d3"><span class="cl-text">여행자 보험 가입</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="d4"><input type="checkbox" class="cl-cb" data-key="d4"><span class="cl-text">국제운전면허증 발급</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
       </div>
+    </div>
+
+    <!-- 로키 준비물 -->
+    <div class="cl-group">
+      <div class="cl-group-title">🏔 캐나다 로키 준비물</div>
+      <div class="cl-list" id="cl-rocky">
+        <div class="cl-item" data-id="r1"><input type="checkbox" class="cl-cb" data-key="r1"><span class="cl-text">Parks Canada Discovery Pass (국립공원 입장권)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="r2"><input type="checkbox" class="cl-cb" data-key="r2"><span class="cl-text">트레킹화 (방수, 발목 지지)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="r3"><input type="checkbox" class="cl-cb" data-key="r3"><span class="cl-text">레이어드 방한 의류 (9월 말 영하 가능)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="r4"><input type="checkbox" class="cl-cb" data-key="r4"><span class="cl-text">선글라스 및 자외선차단제</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+      </div>
+    </div>
+
+    <!-- 옐로나이프 준비물 -->
+    <div class="cl-group">
+      <div class="cl-group-title">🌌 옐로나이프 오로라 준비물</div>
+      <div class="cl-list" id="cl-aurora">
+        <div class="cl-item" data-id="a1"><input type="checkbox" class="cl-cb" data-key="a1"><span class="cl-text">극한 방한복 (체감 -10°C 이하 대비)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="a2"><input type="checkbox" class="cl-cb" data-key="a2"><span class="cl-text">핫팩 (손·발 각 여분 충분히)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="a3"><input type="checkbox" class="cl-cb" data-key="a3"><span class="cl-text">카메라 여분 배터리 (추위에 빨리 소모)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="a4"><input type="checkbox" class="cl-cb" data-key="a4"><span class="cl-text">삼각대 (장노출 오로라 촬영용)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="a5"><input type="checkbox" class="cl-cb" data-key="a5"><span class="cl-text">SpaceWeatherLive 앱 설치 (KP 지수 확인)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+      </div>
+    </div>
+
+    <!-- 항목 추가 -->
+    <div class="cl-add-wrap">
+      <select id="cl-cat-sel" class="cl-cat-sel">
+        <option value="cl-booking">📋 예약</option>
+        <option value="cl-docs">🛂 서류</option>
+        <option value="cl-rocky">🏔 로키</option>
+        <option value="cl-aurora">🌌 옐로나이프</option>
+      </select>
+      <input id="cl-new-input" class="cl-new-input" placeholder="새 항목 입력..." onkeydown="if(event.key==='Enter') clAdd()"/>
+      <button class="cl-add-btn" onclick="clAdd()">+ 추가</button>
     </div>
   </div>
 
@@ -1394,6 +1416,87 @@ function addTouchDrag(item, timeline) {
     mainEl.insertAdjacentElement('afterend', btn);
   });
 
+})();
+
+// ── Checklist ──────────────────────────────────────────────────
+(function initChecklist() {
+  const STORE = 'cl-data-v1';
+  function load() { try { return JSON.parse(localStorage.getItem(STORE) || '{}'); } catch(e) { return {}; } }
+  function save(data) { localStorage.setItem(STORE, JSON.stringify(data)); }
+
+  // 체크 상태 복원
+  function applyStates() {
+    const data = load();
+    document.querySelectorAll('.cl-cb').forEach(cb => {
+      const key = cb.dataset.key;
+      if (data.states && data.states[key]) {
+        cb.checked = true;
+        cb.closest('.cl-item').classList.add('done');
+      }
+      cb.addEventListener('change', () => {
+        const d = load();
+        d.states = d.states || {};
+        d.states[key] = cb.checked;
+        save(d);
+        cb.closest('.cl-item').classList.toggle('done', cb.checked);
+      });
+    });
+    // 커스텀 항목 복원
+    if (data.custom && data.custom.length) {
+      data.custom.forEach(item => renderCustomItem(item, false));
+    }
+  }
+
+  function renderCustomItem(item, persist) {
+    const list = document.getElementById(item.cat);
+    if (!list) return;
+    const div = document.createElement('div');
+    div.className = 'cl-item' + (item.checked ? ' done' : '');
+    div.dataset.id = item.id;
+    div.innerHTML = '<input type="checkbox" class="cl-cb" data-key="' + item.id + '"' + (item.checked ? ' checked' : '') + '>' +
+      '<span class="cl-text">' + item.text + '</span>' +
+      '<button class="cl-del" onclick="clDelete(this)">✕</button>';
+    list.appendChild(div);
+    const cb = div.querySelector('.cl-cb');
+    cb.addEventListener('change', () => {
+      const d = load();
+      d.states = d.states || {};
+      d.states[item.id] = cb.checked;
+      const ci = (d.custom || []).find(c => c.id === item.id);
+      if (ci) ci.checked = cb.checked;
+      save(d);
+      div.classList.toggle('done', cb.checked);
+    });
+    if (persist) {
+      const d = load();
+      d.custom = d.custom || [];
+      d.custom.push(item);
+      save(d);
+    }
+  }
+
+  window.clAdd = function() {
+    const input = document.getElementById('cl-new-input');
+    const cat = document.getElementById('cl-cat-sel').value;
+    const text = input.value.trim();
+    if (!text) { input.focus(); return; }
+    const item = { id: 'cu-' + Date.now(), cat, text, checked: false };
+    renderCustomItem(item, true);
+    input.value = '';
+    input.focus();
+  };
+
+  window.clDelete = function(btn) {
+    const item = btn.closest('.cl-item');
+    const id = item.dataset.id;
+    const d = load();
+    d.custom = (d.custom || []).filter(c => c.id !== id);
+    if (d.states) delete d.states[id];
+    save(d);
+    item.remove();
+  };
+
+  applyStates();
 })();
 
 // ── GitHub Sync ─────────────────────────────────────────────────
