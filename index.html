@@ -247,83 +247,248 @@
     <svg class="hero-svg" viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
       <defs>
         <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#9CC5E0"/><stop offset="100%" stop-color="#D6EDF9"/>
+          <stop offset="0%" stop-color="#4A90D9"/>
+          <stop offset="60%" stop-color="#A8D8F0"/>
+          <stop offset="100%" stop-color="#FFD59A"/>
         </linearGradient>
         <linearGradient id="hFade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="30%" stop-color="rgba(0,0,0,0)"/><stop offset="100%" stop-color="rgba(0,0,0,0.52)"/>
+          <stop offset="20%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0.60)"/>
         </linearGradient>
+        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFE082" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#FFE082" stop-opacity="0"/>
+        </radialGradient>
       </defs>
-      <!-- Sky -->
+
+      <!-- 하늘 -->
       <rect width="800" height="180" fill="url(#hSky)"/>
-      <!-- Far mountains -->
-      <polygon points="0,115 55,52 125,88 195,32 265,68 335,22 405,58 478,27 550,63 622,33 695,68 760,42 800,62 800,180 0,180" fill="#9BB8CC"/>
-      <!-- Snow caps -->
-      <polygon points="195,32 208,55 182,55" fill="#EDF3F8" opacity=".92"/>
-      <polygon points="335,22 350,47 320,47" fill="#EDF3F8" opacity=".92"/>
-      <polygon points="478,27 491,50 465,50" fill="#EDF3F8" opacity=".92"/>
-      <polygon points="622,33 635,54 609,54" fill="#EDF3F8" opacity=".92"/>
-      <polygon points="55,52 66,70 44,70" fill="#EDF3F8" opacity=".78"/>
-      <!-- Mid mountains -->
-      <polygon points="0,138 75,88 148,118 222,73 298,104 372,67 448,98 522,72 596,104 668,78 742,106 800,84 800,180 0,180" fill="#5E7E65"/>
-      <!-- Forest mass -->
-      <path d="M0,152 C40,140 90,145 140,138 C190,131 235,140 280,134 C325,128 370,136 415,130 C460,124 505,132 550,127 C595,122 640,129 685,124 C730,119 768,125 800,121 L800,180 L0,180Z" fill="#1E3422"/>
-      <!-- Pine trees — left group -->
-      <g fill="#152818">
-        <polygon points="10,178 27,140 44,178"/><polygon points="14,158 27,133 40,158"/><polygon points="18,143 27,127 36,143"/>
-        <polygon points="46,178 65,136 84,178"/><polygon points="50,155 65,128 80,155"/><polygon points="54,140 65,122 76,140"/>
-        <polygon points="86,178 103,140 120,178"/><polygon points="90,157 103,132 116,157"/><polygon points="94,143 103,126 112,143"/>
-        <polygon points="124,180 139,145 154,180"/><polygon points="127,161 139,137 151,161"/><polygon points="130,147 139,131 148,147"/>
-        <polygon points="158,178 172,143 186,178"/><polygon points="161,158 172,136 183,158"/>
+
+      <!-- 태양 -->
+      <circle cx="700" cy="30" r="26" fill="url(#sunGlow)"/>
+      <circle cx="700" cy="30" r="14" fill="#FFD54F"/>
+
+      <!-- 구름 -->
+      <g fill="white" opacity="0.90">
+        <ellipse cx="105" cy="38" rx="40" ry="15"/><ellipse cx="138" cy="32" rx="28" ry="13"/><ellipse cx="76" cy="36" rx="22" ry="11"/>
+        <ellipse cx="345" cy="24" rx="34" ry="13"/><ellipse cx="376" cy="18" rx="25" ry="11"/><ellipse cx="318" cy="22" rx="20" ry="10"/>
+        <ellipse cx="572" cy="40" rx="30" ry="11"/><ellipse cx="598" cy="35" rx="22" ry="10"/>
       </g>
-      <!-- Pine trees — right group -->
-      <g fill="#152818">
-        <polygon points="596,178 612,139 628,178"/><polygon points="600,156 612,131 624,156"/><polygon points="604,141 612,125 620,141"/>
-        <polygon points="632,180 649,137 666,180"/><polygon points="636,156 649,129 662,156"/><polygon points="640,141 649,123 658,141"/>
-        <polygon points="670,178 685,140 700,178"/><polygon points="673,157 685,132 697,157"/><polygon points="677,143 685,127 693,143"/>
-        <polygon points="705,180 718,142 731,180"/><polygon points="708,158 718,134 728,158"/><polygon points="711,144 718,128 725,144"/>
-        <polygon points="736,178 748,142 760,178"/><polygon points="739,157 748,134 757,157"/><polygon points="742,143 748,128 754,143"/>
-        <polygon points="764,180 775,144 786,180"/><polygon points="767,159 775,136 783,159"/>
+
+      <!-- 원경 산 (라벤더/보라) -->
+      <polygon points="0,98 55,40 125,72 198,24 268,62 340,18 412,55 485,22 555,58 628,28 698,62 762,38 800,54 800,128 0,128" fill="#B39DDB"/>
+      <!-- 설산 -->
+      <polygon points="198,24 214,52 182,52" fill="#EDE7F6"/>
+      <polygon points="340,18 357,46 323,46" fill="#EDE7F6"/>
+      <polygon points="485,22 500,50 470,50" fill="#EDE7F6"/>
+      <polygon points="628,28 643,54 613,54" fill="#EDE7F6"/>
+      <polygon points="55,40 68,62 42,62" fill="#EDE7F6" opacity="0.75"/>
+
+      <!-- 중경 산 (에메랄드 그린) -->
+      <polygon points="0,130 72,88 148,114 225,72 300,106 378,65 455,97 532,70 608,103 682,76 758,105 800,82 800,150 0,150" fill="#26A69A"/>
+
+      <!-- 근경 언덕 (초록) -->
+      <polygon points="0,152 85,122 170,144 255,116 340,140 425,114 510,138 595,116 680,140 765,120 800,136 800,180 0,180" fill="#2E7D32"/>
+
+      <!-- 숲 기반 -->
+      <path d="M0,163 C55,150 110,157 165,150 C220,143 275,154 330,147 C385,140 440,152 495,145 C550,138 605,150 660,143 C715,136 758,146 800,140 L800,180 L0,180Z" fill="#1B5E20"/>
+
+      <!-- 소나무 왼쪽 -->
+      <g fill="#145214">
+        <polygon points="8,180 24,145 40,180"/><polygon points="12,161 24,138 36,161"/><polygon points="16,146 24,131 32,146"/>
+        <polygon points="44,180 62,141 80,180"/><polygon points="48,158 62,134 76,158"/><polygon points="52,143 62,128 72,143"/>
+        <polygon points="85,180 101,144 117,180"/><polygon points="89,160 101,137 113,160"/>
+        <polygon points="122,180 136,148 150,180"/><polygon points="125,163 136,141 147,163"/>
+        <polygon points="220,178 232,149 244,178"/><polygon points="223,162 232,144 241,162"/>
+        <polygon points="248,180 260,150 272,180"/>
       </g>
-      <!-- Bear (walking, left-center) -->
-      <g fill="#3A200C">
-        <ellipse cx="275" cy="158" rx="28" ry="16"/>
-        <ellipse cx="302" cy="146" rx="14" ry="12"/>
-        <circle cx="294" cy="136" r="5.5"/>
-        <circle cx="308" cy="135" r="5.5"/>
-        <ellipse cx="312" cy="150" rx="8" ry="5"/>
-        <rect x="253" y="169" width="9" height="11" rx="4"/>
-        <rect x="264" y="171" width="9" height="9" rx="4"/>
-        <rect x="276" y="169" width="9" height="11" rx="4"/>
-        <rect x="285" y="171" width="9" height="9" rx="4"/>
-        <ellipse cx="249" cy="160" rx="6" ry="5"/>
+
+      <!-- 소나무 오른쪽 -->
+      <g fill="#145214">
+        <polygon points="560,180 573,148 586,180"/><polygon points="563,163 573,141 583,163"/>
+        <polygon points="590,178 602,146 614,178"/><polygon points="593,162 602,140 611,162"/>
+        <polygon points="618,180 630,148 642,180"/><polygon points="621,163 630,142 639,163"/>
+        <polygon points="646,178 658,147 670,178"/><polygon points="649,162 658,141 667,162"/>
+        <polygon points="674,180 684,149 694,180"/>
+        <polygon points="720,178 730,148 740,178"/><polygon points="723,163 730,142 737,163"/>
+        <polygon points="745,180 754,149 763,180"/><polygon points="748,164 754,143 760,164"/>
+        <polygon points="768,178 776,148 784,178"/><polygon points="771,163 776,143 781,163"/>
       </g>
-      <!-- Moose (right-center) -->
-      <g fill="#2A1405">
-        <ellipse cx="520" cy="158" rx="24" ry="14"/>
-        <rect x="533" y="136" width="9" height="22" rx="4"/>
-        <ellipse cx="539" cy="133" rx="10" ry="8"/>
-        <!-- Antlers -->
-        <path d="M534,126 L526,110 L519,103 M526,110 L529,105 M526,110 L522,106" stroke="#2A1405" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M543,126 L551,110 L558,103 M551,110 L548,105 M551,110 L555,106" stroke="#2A1405" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <rect x="504" y="168" width="7" height="13" rx="3"/>
-        <rect x="513" y="170" width="7" height="11" rx="3"/>
-        <rect x="522" y="168" width="7" height="13" rx="3"/>
-        <rect x="531" y="170" width="7" height="11" rx="3"/>
+
+      <!-- 흙길 (원근감) -->
+      <path d="M288,180 L360,158 L445,158 L517,180Z" fill="#795548"/>
+      <path d="M360,158 L388,152 L417,152 L445,158Z" fill="#8D6E63"/>
+      <rect x="398" y="161" width="6" height="3" rx="1" fill="#FFFDE7" opacity="0.5"/>
+      <rect x="395" y="167" width="10" height="3" rx="1" fill="#FFFDE7" opacity="0.4"/>
+      <rect x="393" y="173" width="14" height="3" rx="1" fill="#FFFDE7" opacity="0.35"/>
+
+      <!-- 새 -->
+      <path d="M172,50 C175,47 179,47 182,50" stroke="#7986CB" stroke-width="1.8" fill="none"/>
+      <path d="M186,44 C189,41 193,41 196,44" stroke="#7986CB" stroke-width="1.8" fill="none"/>
+      <path d="M452,34 C455,31 459,31 462,34" stroke="#7986CB" stroke-width="1.5" fill="none"/>
+      <path d="M466,29 C469,26 473,26 476,29" stroke="#7986CB" stroke-width="1.5" fill="none"/>
+
+      <!-- ══════════════════════════════════ -->
+      <!-- 신랑 (제일 왼쪽, 제일 키 큼) -->
+      <!-- ══════════════════════════════════ -->
+      <!-- 백팩 (파란색, 큰 것) -->
+      <rect x="298" y="145" width="11" height="18" rx="3" fill="#1565C0"/>
+      <rect x="299" y="149" width="9" height="5" rx="1" fill="#1976D2"/>
+      <rect x="299" y="156" width="9" height="5" rx="1" fill="#1976D2"/>
+      <!-- 몸통 (주황 자켓) -->
+      <rect x="308" y="145" width="15" height="20" rx="4" fill="#FF6D00"/>
+      <!-- 바지 -->
+      <rect x="309" y="165" width="5" height="15" rx="3" fill="#1A237E"/>
+      <rect x="316" y="165" width="5" height="15" rx="3" fill="#1A237E"/>
+      <!-- 팔 왼쪽 -->
+      <path d="M308,150 C304,155 300,160 298,164" stroke="#FF6D00" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      <!-- 팔 오른쪽 -->
+      <path d="M323,150 C327,155 330,159 332,163" stroke="#FF6D00" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      <!-- 손 -->
+      <circle cx="297" cy="165" r="3.2" fill="#FDBCB4"/>
+      <circle cx="333" cy="164" r="3.2" fill="#FDBCB4"/>
+      <!-- 신발 -->
+      <ellipse cx="311" cy="180" rx="5.5" ry="2.5" fill="#3E2723"/>
+      <ellipse cx="319" cy="180" rx="5.5" ry="2.5" fill="#3E2723"/>
+      <!-- 목 -->
+      <rect x="312" y="140" width="6" height="6" rx="2" fill="#FDBCB4"/>
+      <!-- 머리 -->
+      <circle cx="315" cy="134" r="10.5" fill="#FDBCB4"/>
+      <!-- 머리카락 (짧은 다크) -->
+      <ellipse cx="315" cy="126" rx="10.5" ry="6" fill="#3E2723"/>
+      <rect x="305" y="127" width="5" height="9" rx="2" fill="#3E2723"/>
+      <!-- 눈 -->
+      <circle cx="311" cy="134" r="1.8" fill="#5D4037"/>
+      <circle cx="319" cy="134" r="1.8" fill="#5D4037"/>
+      <!-- 미소 -->
+      <path d="M311,138 Q315,142 319,138" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+      <!-- ══════════════════════════════════ -->
+      <!-- 나 (가운데, 중간 키) -->
+      <!-- ══════════════════════════════════ -->
+      <!-- 백팩 (핑크) -->
+      <rect x="340" y="148" width="10" height="16" rx="3" fill="#E91E63"/>
+      <rect x="341" y="152" width="8" height="4" rx="1" fill="#F06292"/>
+      <rect x="341" y="158" width="8" height="4" rx="1" fill="#F06292"/>
+      <!-- 몸통 (민트 자켓) -->
+      <rect x="349" y="148" width="14" height="18" rx="4" fill="#00ACC1"/>
+      <!-- 바지 -->
+      <rect x="350" y="166" width="5" height="14" rx="3" fill="#283593"/>
+      <rect x="357" y="166" width="5" height="14" rx="3" fill="#283593"/>
+      <!-- 팔 왼쪽 -->
+      <path d="M349,153 C345,158 342,163 340,167" stroke="#00ACC1" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <!-- 팔 오른쪽 -->
+      <path d="M363,153 C367,158 370,162 371,166" stroke="#00ACC1" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <!-- 손 -->
+      <circle cx="339" cy="168" r="3" fill="#FDBCB4"/>
+      <circle cx="372" cy="167" r="3" fill="#FDBCB4"/>
+      <!-- 신발 -->
+      <ellipse cx="352" cy="180" rx="5" ry="2.2" fill="#3E2723"/>
+      <ellipse cx="360" cy="180" rx="5" ry="2.2" fill="#3E2723"/>
+      <!-- 목 -->
+      <rect x="353" y="143" width="6" height="6" rx="2" fill="#FDBCB4"/>
+      <!-- 머리 -->
+      <circle cx="356" cy="137" r="9.5" fill="#FDBCB4"/>
+      <!-- 긴 머리 + 포니테일 -->
+      <ellipse cx="356" cy="130" rx="10" ry="6" fill="#4E2D1E"/>
+      <rect x="347" y="130" width="5" height="11" rx="2" fill="#4E2D1E"/>
+      <rect x="362" y="130" width="5" height="11" rx="2" fill="#4E2D1E"/>
+      <path d="M366,130 C372,131 374,137 370,143" stroke="#4E2D1E" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <!-- 눈 -->
+      <circle cx="352" cy="137" r="1.6" fill="#5D4037"/>
+      <circle cx="360" cy="137" r="1.6" fill="#5D4037"/>
+      <!-- 미소 -->
+      <path d="M352,141 Q356,145 360,141" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+      <!-- ══════════════════════════════════ -->
+      <!-- 엄마 (오른쪽, 제일 낮은 키) -->
+      <!-- ══════════════════════════════════ -->
+      <!-- 백팩 (노란/주황) -->
+      <rect x="381" y="152" width="9" height="15" rx="3" fill="#FF8F00"/>
+      <rect x="382" y="156" width="7" height="4" rx="1" fill="#FFA000"/>
+      <rect x="382" y="162" width="7" height="4" rx="1" fill="#FFA000"/>
+      <!-- 몸통 (보라 자켓) -->
+      <rect x="389" y="152" width="13" height="17" rx="4" fill="#8E24AA"/>
+      <!-- 바지 -->
+      <rect x="390" y="169" width="4" height="11" rx="2.5" fill="#880E4F"/>
+      <rect x="396" y="169" width="4" height="11" rx="2.5" fill="#880E4F"/>
+      <!-- 팔 왼쪽 -->
+      <path d="M389,157 C386,162 383,166 381,169" stroke="#8E24AA" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <!-- 팔 오른쪽 -->
+      <path d="M402,157 C405,162 407,165 408,168" stroke="#8E24AA" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <!-- 손 -->
+      <circle cx="380" cy="170" r="2.8" fill="#FDBCB4"/>
+      <circle cx="409" cy="169" r="2.8" fill="#FDBCB4"/>
+      <!-- 신발 -->
+      <ellipse cx="392" cy="180" rx="4.5" ry="2" fill="#3E2723"/>
+      <ellipse cx="398" cy="180" rx="4.5" ry="2" fill="#3E2723"/>
+      <!-- 목 -->
+      <rect x="393" y="147" width="5" height="6" rx="2" fill="#FDBCB4"/>
+      <!-- 머리 -->
+      <circle cx="395" cy="141" r="9" fill="#FDBCB4"/>
+      <!-- 단발 머리 -->
+      <ellipse cx="395" cy="134" rx="9.5" ry="6" fill="#6D4C41"/>
+      <rect x="386" y="134" width="5" height="10" rx="2" fill="#6D4C41"/>
+      <rect x="396" y="134" width="5" height="10" rx="2" fill="#6D4C41"/>
+      <!-- 눈 -->
+      <circle cx="391" cy="141" r="1.6" fill="#5D4037"/>
+      <circle cx="399" cy="141" r="1.6" fill="#5D4037"/>
+      <!-- 미소 -->
+      <path d="M391,145 Q395,149 399,145" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+      <!-- ══════════════════════════════════ -->
+      <!-- SUV (파란색, 오른쪽) -->
+      <!-- ══════════════════════════════════ -->
+      <!-- 그림자 -->
+      <ellipse cx="483" cy="179" rx="58" ry="4" fill="rgba(0,0,0,0.22)"/>
+      <!-- 바퀴 뒤 -->
+      <circle cx="447" cy="172" r="9" fill="#212121"/>
+      <circle cx="447" cy="172" r="5.5" fill="#616161"/>
+      <circle cx="447" cy="172" r="2.2" fill="#9E9E9E"/>
+      <!-- 바퀴 앞 -->
+      <circle cx="512" cy="172" r="9" fill="#212121"/>
+      <circle cx="512" cy="172" r="5.5" fill="#616161"/>
+      <circle cx="512" cy="172" r="2.2" fill="#9E9E9E"/>
+      <!-- 차체 하단 -->
+      <rect x="433" y="153" width="90" height="21" rx="5" fill="#1565C0"/>
+      <!-- 루프라인 (SUV 지붕 경사) -->
+      <path d="M445,153 L453,138 L504,138 L518,153Z" fill="#1976D2"/>
+      <!-- 지붕 -->
+      <rect x="453" y="134" width="51" height="5" rx="2" fill="#0D47A1"/>
+      <!-- 지붕 짐 -->
+      <rect x="457" y="129" width="13" height="7" rx="2" fill="#E53935"/>
+      <rect x="474" y="130" width="9" height="6" rx="2" fill="#43A047"/>
+      <rect x="487" y="130" width="11" height="6" rx="2" fill="#795548"/>
+      <!-- 앞유리 -->
+      <path d="M504,153 L512,140 L518,143 L518,153Z" fill="#B3E5FC" opacity="0.80"/>
+      <!-- 창문 1 -->
+      <rect x="456" y="140" width="22" height="12" rx="2" fill="#B3E5FC" opacity="0.85"/>
+      <!-- 창문 2 -->
+      <rect x="482" y="140" width="20" height="12" rx="2" fill="#B3E5FC" opacity="0.85"/>
+      <!-- 전조등 -->
+      <ellipse cx="522" cy="163" rx="4.5" ry="3" fill="#FFF59D"/>
+      <!-- 그릴/범퍼 -->
+      <rect x="518" y="157" width="6" height="12" rx="3" fill="#0D47A1"/>
+      <!-- 도어라인 -->
+      <line x1="479" y1="154" x2="479" y2="173" stroke="#0D47A1" stroke-width="1.5" opacity="0.7"/>
+      <!-- 도어 손잡이 -->
+      <rect x="461" y="162" width="9" height="2.5" rx="1" fill="#90CAF9"/>
+      <rect x="483" y="162" width="9" height="2.5" rx="1" fill="#90CAF9"/>
+      <!-- 캐나다 국기 스티커 -->
+      <rect x="435" y="158" width="14" height="9" rx="1.5" fill="white"/>
+      <rect x="435" y="158" width="4" height="9" rx="1" fill="#D32F2F"/>
+      <rect x="445" y="158" width="4" height="9" rx="1" fill="#D32F2F"/>
+      <!-- 번호판 -->
+      <rect x="434" y="169" width="12" height="5" rx="1" fill="#E0E0E0"/>
+      <rect x="518" y="169" width="5" height="5" rx="1" fill="#E0E0E0"/>
+
+      <!-- 풀잎 장식 -->
+      <g fill="#33691E" opacity="0.75">
+        <rect x="278" y="174" width="3" height="9" rx="1"/><rect x="284" y="172" width="3" height="11" rx="1"/><rect x="290" y="175" width="3" height="8" rx="1"/>
+        <rect x="525" y="174" width="3" height="9" rx="1"/><rect x="531" y="172" width="3" height="11" rx="1"/><rect x="537" y="176" width="3" height="7" rx="1"/>
       </g>
-      <!-- Squirrel (small, near bear) -->
-      <g fill="#5C3010">
-        <ellipse cx="340" cy="164" rx="7" ry="5"/>
-        <circle cx="347" cy="159" r="5"/>
-        <circle cx="344" cy="154" r="3"/>
-        <path d="M333,162 C328,155 330,148 336,150" stroke="#5C3010" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      </g>
-      <!-- Birds -->
-      <path d="M155,48 C158,45 162,45 165,48" stroke="#7A9DB0" stroke-width="1.5" fill="none"/>
-      <path d="M169,42 C172,39 176,39 179,42" stroke="#7A9DB0" stroke-width="1.5" fill="none"/>
-      <path d="M415,35 C418,32 422,32 425,35" stroke="#7A9DB0" stroke-width="1.5" fill="none"/>
-      <path d="M430,29 C433,26 437,26 440,29" stroke="#7A9DB0" stroke-width="1.5" fill="none"/>
-      <path d="M570,44 C573,41 577,41 580,44" stroke="#7A9DB0" stroke-width="1.3" fill="none"/>
-      <!-- Overlay gradient for text readability -->
+
+      <!-- 오버레이 그라디언트 -->
       <rect width="800" height="180" fill="url(#hFade)"/>
     </svg>
     <!-- Title + button overlay -->
