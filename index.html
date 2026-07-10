@@ -261,10 +261,62 @@
     .cl-new-input { font-size: 12px; }
   }
 
-  /* Tab edit hint */
-  .day-tab[contenteditable] { outline: 1.5px solid #1D9E75 !important; border-radius: var(--border-radius-md); cursor: text; }
+  /* Tab edit hint — only in edit mode */
+  body.edit-mode .day-tab[contenteditable="true"] { outline: 1.5px solid #1D9E75 !important; border-radius: var(--border-radius-md); cursor: text; }
+
+  /* === 편집 모드 FAB === */
+  #gh-fab-wrap {
+    position: fixed; bottom: 20px; right: 16px; z-index: 9000;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+  #gh-fab-toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(0,0,0,0.13);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    cursor: pointer; font-size: 20px; line-height: 1;
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  #gh-fab-toggle:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.22); transform: scale(1.08); }
+  #gh-fab-menu {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(10px); transition: opacity 0.2s, transform 0.2s;
+  }
+  #gh-fab-menu.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #gh-save-btn {
+    padding: 9px 20px; background: #222; color: #fff;
+    border: none; border-radius: 22px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25); transition: background 0.2s;
+    white-space: nowrap;
+  }
+  #gh-cfg-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #fff; border: 1px solid #ddd;
+    cursor: pointer; font-size: 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+  }
+  /* 편집 모드 상단 인디케이터 */
+  #edit-mode-bar {
+    display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 8999;
+    background: #1D9E75; color: #fff;
+    font-size: 12px; font-weight: 600; text-align: center;
+    padding: 5px 12px;
+  }
+  body.edit-mode #edit-mode-bar { display: block; }
+  body.edit-mode { padding-top: 26px; }
+  /* 편집 가능 요소 힌트 (편집 모드 시) */
+  body.edit-mode [contenteditable="true"]:hover { outline: 1px dashed #1D9E75; outline-offset: 2px; border-radius: 3px; }
+  body.edit-mode [contenteditable="true"]:focus { outline: 2px solid #1D9E75; outline-offset: 2px; border-radius: 3px; }
+  /* 모바일 하단 여백 */
+  @media (max-width: 640px) {
+    .itinerary-wrap { padding-bottom: 80px; }
+  }
 </style>
 
+<div id="edit-mode-bar">✏️ 편집 모드 — 수정 후 💾 저장을 눌러주세요</div>
 <div class="itinerary-wrap">
   <!-- Hero illustration header -->
   <div class="hero-wrap">
@@ -1561,7 +1613,10 @@ function addTouchDrag(item, timeline) {
       const d = await api(cfg, 'PUT', 'edits.json', body);
       editsSha = d.content.sha;
       btn.textContent = '✓ 저장됨'; btn.style.background = '#1D9E75';
-      setTimeout(() => { btn.textContent = '💾 저장'; btn.style.background = '#222'; btn.disabled = false; }, 2500);
+      setTimeout(() => {
+        btn.textContent = '💾 저장'; btn.style.background = '#222'; btn.disabled = false;
+        setEditMode(false);
+      }, 1500);
     } catch(e) {
       alert('저장 실패: ' + e.message);
       btn.textContent = '💾 저장'; btn.disabled = false;
@@ -1604,13 +1659,37 @@ function addTouchDrag(item, timeline) {
     };
   }
 
-  // 플로팅 버튼 UI
-  const bar = document.createElement('div');
-  bar.style.cssText = 'position:fixed;bottom:20px;right:16px;z-index:9000;display:flex;gap:8px;align-items:center;';
-  bar.innerHTML =
-    '<button id="gh-cfg-btn" title="GitHub 설정" style="width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid #ddd;cursor:pointer;font-size:15px;box-shadow:0 1px 6px rgba(0,0,0,0.12);">⚙️</button>'+
-    '<button id="gh-save-btn" style="padding:8px 18px;background:#222;color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.25);transition:background 0.2s;">💾 저장</button>';
-  document.body.appendChild(bar);
+  // === 편집 모드 FAB ===
+  // 초기: 모든 contenteditable 비활성화 (브라우징 모드)
+  document.querySelectorAll('[data-eid]').forEach(el => el.contentEditable = 'false');
+
+  function setEditMode(on) {
+    document.querySelectorAll('[data-eid]').forEach(el => el.contentEditable = on ? 'true' : 'false');
+    document.body.classList.toggle('edit-mode', on);
+    fabToggle.textContent = on ? '✕' : '✏️';
+    fabToggle.title = on ? '편집 종료' : '편집 모드';
+    fabMenu.classList.toggle('open', on);
+  }
+
+  const fabWrap = document.createElement('div');
+  fabWrap.id = 'gh-fab-wrap';
+
+  const fabMenu = document.createElement('div');
+  fabMenu.id = 'gh-fab-menu';
+  fabMenu.innerHTML =
+    '<button id="gh-save-btn">💾 저장</button>'+
+    '<button id="gh-cfg-btn" title="GitHub 설정">⚙️</button>';
+
+  const fabToggle = document.createElement('button');
+  fabToggle.id = 'gh-fab-toggle';
+  fabToggle.textContent = '✏️';
+  fabToggle.title = '편집 모드';
+  fabToggle.addEventListener('click', () => setEditMode(!document.body.classList.contains('edit-mode')));
+
+  fabWrap.appendChild(fabMenu);
+  fabWrap.appendChild(fabToggle);
+  document.body.appendChild(fabWrap);
+
   document.getElementById('gh-save-btn').addEventListener('click', saveEdits);
   document.getElementById('gh-cfg-btn').addEventListener('click', showModal);
 
