@@ -1611,9 +1611,27 @@ function addTouchDrag(item, timeline) {
     if (!el.hasAttribute('contenteditable')) el.setAttribute('contenteditable', 'true');
   }));
 
-  // 모든 편집 가능 요소에 안정적인 ID 부여
-  let n = 0;
-  document.querySelectorAll('[contenteditable]').forEach(el => { if (!el.dataset.eid) el.dataset.eid = 'e'+(n++); });
+  // 구버전 e0,e1... 형식의 불안정 저장 데이터 삭제
+  try {
+    const old = localStorage.getItem('local-edits');
+    if (old) {
+      const p = JSON.parse(old);
+      if (Object.keys(p.fields||{}).some(k => /^e\d+$/.test(k))) localStorage.removeItem('local-edits');
+    }
+  } catch(e) {}
+
+  // 안정적 eid 생성: 가장 가까운 id 조상 + 클래스 + 인덱스
+  function makeEid(el) {
+    let anc = el.parentElement;
+    while (anc && !anc.id) anc = anc.parentElement;
+    const scope = (anc && anc !== document.body) ? anc : el.closest('.itinerary-wrap') || document.body;
+    const scopeId = scope.id || 'root';
+    const cls = el.classList[0] || el.tagName.toLowerCase();
+    const peers = [...scope.querySelectorAll('.' + cls)];
+    const idx = peers.indexOf(el);
+    return scopeId + '_' + cls + (idx > 0 ? '_' + idx : '');
+  }
+  document.querySelectorAll('[contenteditable]').forEach(el => { if (!el.dataset.eid) el.dataset.eid = makeEid(el); });
 
   function collect() {
     const fields = {};
