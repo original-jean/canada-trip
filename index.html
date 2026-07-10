@@ -1630,37 +1630,50 @@ function addTouchDrag(item, timeline) {
     return d;
   }
 
+  // 로컬 저장/불러오기
+  function saveLocal() {
+    try { localStorage.setItem('local-edits', JSON.stringify(collect())); } catch(e) {}
+  }
+  function loadLocal() {
+    try { const d = localStorage.getItem('local-edits'); if (d) applyEdits(JSON.parse(d)); } catch(e) {}
+  }
+
   async function loadEdits() {
     const cfg = getConfig();
-    if (!cfg) return;
+    if (!cfg) { loadLocal(); return; }
     try {
       const d = await api(cfg, 'GET', 'edits.json');
       editsSha = d.sha;
       applyEdits(JSON.parse(b64dec(d.content)));
-    } catch(e) { /* edits.json 아직 없음 */ }
+    } catch(e) { loadLocal(); }
   }
 
   async function saveEdits() {
     if (isSaving) return;
+    // 항상 로컬 저장 먼저
+    saveLocal();
     const cfg = getConfig();
-    if (!cfg) { showModal(); return; }
+    if (!cfg) {
+      // GitHub 미설정 → 로컬만 저장
+      showToast('저장됐어요 ✓', '#1D9E75');
+      setEditMode(false);
+      return;
+    }
+    // GitHub 연동된 경우 → 클라우드에도 저장
     isSaving = true;
     const btn = document.getElementById('gh-save-btn');
-    btn.textContent = '저장 중...'; btn.disabled = true;
+    btn.textContent = '공유 중...'; btn.disabled = true;
     try {
       const body = { message: '일정 업데이트', content: b64enc(JSON.stringify(collect())) };
       if (editsSha) body.sha = editsSha;
       const d = await api(cfg, 'PUT', 'edits.json', body);
       editsSha = d.content.sha;
-      btn.textContent = '✓ 저장됨'; btn.style.background = '#1D9E75';
-      setTimeout(() => {
-        btn.textContent = '💾 저장'; btn.style.background = '#222'; btn.disabled = false;
-        setEditMode(false);
-      }, 1500);
+      showToast('저장됐어요 — 가족에게 공유됐어요 ✓', '#1D9E75');
+      setEditMode(false);
     } catch(e) {
-      alert('저장 실패: ' + e.message);
-      btn.textContent = '💾 저장'; btn.disabled = false;
+      showToast('클라우드 저장 실패 (로컬엔 저장됨)', '#D85A30');
     }
+    btn.textContent = '☁️ 저장·공유'; btn.disabled = false;
     isSaving = false;
   }
 
