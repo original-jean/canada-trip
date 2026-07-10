@@ -53,9 +53,14 @@
   .dot-hotel { background: #E6F1FB; border-color: #378ADD; }
   .dot-alert { background: #FAECE7; border-color: #D85A30; }
 
-  .tl-time { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 2px; font-weight: 500; }
-  .tl-main { font-size: 14px; color: var(--color-text-primary); line-height: 1.5; }
-  .tl-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.5; }
+  .tl-time {
+    display: inline-block; font-size: 10.5px; font-weight: 700;
+    color: #0F6E56; background: #E1F5EE;
+    border-radius: 6px; padding: 1px 7px; margin-bottom: 4px;
+    letter-spacing: 0.02em;
+  }
+  .tl-main { font-size: 14px; color: var(--color-text-primary); line-height: 1.5; font-weight: 500; }
+  .tl-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; line-height: 1.55; }
 
   .tip-box {
     margin-top: 1.25rem; padding: 0.75rem 1rem;
@@ -101,37 +106,45 @@
   .hero-svg { width: 100%; height: 180px; display: block; }
   .hero-content {
     position: absolute; bottom: 0; left: 0; right: 0;
-    display: flex; align-items: flex-end; justify-content: space-between;
-    padding: 12px 16px 14px; gap: 12px;
+    padding: 12px 16px 14px;
   }
   .hero-title {
     font-size: 19px; font-weight: 700; color: #fff;
     text-shadow: 0 1px 8px rgba(0,0,0,0.45);
-    line-height: 1.3; flex: 1;
+    line-height: 1.3;
   }
-  .hero-title:hover { outline: 1px dashed rgba(255,255,255,0.5); border-radius: 4px; cursor: text; }
-  .hero-title:focus { outline: 1.5px solid rgba(255,255,255,0.8) !important; background: rgba(0,0,0,0.18); border-radius: 4px; padding: 2px 6px; }
+  body.edit-mode .hero-title:hover { outline: 1px dashed rgba(255,255,255,0.5); border-radius: 4px; cursor: text; }
+  body.edit-mode .hero-title:focus { outline: 1.5px solid rgba(255,255,255,0.8) !important; background: rgba(0,0,0,0.18); border-radius: 4px; padding: 2px 6px; }
+
+  /* 히어로 아래 버튼 행 */
+  .hero-action-row {
+    display: flex; gap: 8px; margin-bottom: 1.25rem;
+  }
+  .hero-action-row .info-top-btn { flex: 1; justify-content: center; }
+
+  /* 탭 스크롤 래퍼 — 오른쪽 페이드 */
+  .tabs-scroll-wrap {
+    position: relative; margin-bottom: 0.6rem;
+  }
+  .tabs-scroll-wrap::after {
+    content: ''; pointer-events: none;
+    position: absolute; right: 0; top: 0; bottom: 4px; width: 48px;
+    background: linear-gradient(to right, transparent, var(--color-background-primary));
+  }
+  .tabs-scroll-wrap .day-tabs { margin-bottom: 0; }
 
   /* ── Mobile ───────────────────────────────────────────── */
   @media (max-width: 640px) {
     .itinerary-wrap { padding: 0.25rem 0; }
 
-    /* Hero — SVG 아래로 버튼 배치 */
-    .hero-wrap { margin-bottom: 1rem; }
-    .hero-svg { height: 120px; }
-    .hero-content {
-      flex-direction: column; align-items: flex-start;
-      padding: 8px 12px 12px; gap: 6px;
-    }
-    .hero-title { font-size: 14px; line-height: 1.4; width: 100%; }
-    .hero-content > div {
-      width: 100%; display: flex !important;
-      justify-content: flex-start !important; gap: 6px;
-    }
+    /* Hero */
+    .hero-wrap { margin-bottom: 0.5rem; }
+    .hero-svg { height: 130px; }
+    .hero-content { padding: 8px 12px 12px; }
+    .hero-title { font-size: 15px; line-height: 1.35; }
+    .hero-action-row { margin-bottom: 1rem; gap: 7px; }
     .info-top-btn {
-      flex: 1; justify-content: center;
-      font-size: 11.5px; padding: 7px 8px;
-      min-height: 34px;
+      font-size: 12px; padding: 8px 10px; min-height: 36px;
     }
 
     /* Section labels */
@@ -161,9 +174,10 @@
     .timeline { padding-left: 16px; }
     .timeline::before { left: 5px; }
     .tl-dot { left: -14px; width: 7px; height: 7px; }
-    .tl-time { font-size: 11px; }
-    .tl-main { font-size: 13.5px; }
-    .tl-sub { font-size: 12px; color: var(--color-text-secondary); }
+    .tl-time { font-size: 10px; padding: 1px 6px; }
+    .tl-main { font-size: 13.5px; font-weight: 500; }
+    .tl-sub { font-size: 12px; }
+    .tl-item { margin-bottom: 1.25rem; }
     .tl-item { margin-bottom: 1.1rem; padding-right: 20px; }
     .drag-handle { display: none; }
 
@@ -587,37 +601,43 @@
       <!-- 오버레이 그라디언트 -->
       <rect width="800" height="180" fill="url(#hFade)"/>
     </svg>
-    <!-- Title + button overlay -->
+    <!-- Title overlay only -->
     <div class="hero-content">
       <div class="hero-title" contenteditable="true" spellcheck="false">2026 Canada — Rockies &amp; Yellowknife</div>
-      <div style="display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">
-        <button onclick="showDay('dinfo')" class="info-top-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-          General Info
-        </button>
-        <button onclick="showDay('dchecklist')" class="info-top-btn" style="background:#FF8F00;box-shadow:0 1px 6px rgba(255,143,0,0.35);">
-          ✅ 체크리스트
-        </button>
-      </div>
     </div>
   </div>
 
-  <div class="section-label">로키 일정</div>
-  <div class="day-tabs">
-    <div class="day-tab active" onclick="showDay('d1')">9/25 금</div>
-    <div class="day-tab" onclick="showDay('d2')">9/26 토</div>
-    <div class="day-tab" onclick="showDay('d3')">9/27 일</div>
-    <div class="day-tab" onclick="showDay('d4')">9/28 월</div>
-    <div class="day-tab" onclick="showDay('d5')">9/29 화</div>
-    <div class="day-tab" onclick="showDay('d6')">9/30 수</div>
-    <div class="day-tab" onclick="showDay('dmap')" style="border-color:#1D9E75;color:#0F6E56;">전체 지도</div>
+  <!-- 히어로 아래 버튼 행 -->
+  <div class="hero-action-row">
+    <button onclick="showDay('dinfo')" class="info-top-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
+      General Info
+    </button>
+    <button onclick="showDay('dchecklist')" class="info-top-btn" style="background:#FF8F00;box-shadow:0 1px 6px rgba(255,143,0,0.35);">
+      ✅ 체크리스트
+    </button>
   </div>
-  <div class="section-label" style="margin-top:0.75rem;">옐로나이프 일정</div>
-  <div class="day-tabs">
-    <div class="day-tab" onclick="showDay('d7')" style="border-color:#7B5EA7;color:#5B3D8A;">10/1 목</div>
-    <div class="day-tab" onclick="showDay('d8')" style="border-color:#7B5EA7;color:#5B3D8A;">10/2 금</div>
-    <div class="day-tab" onclick="showDay('d9')" style="border-color:#7B5EA7;color:#5B3D8A;">10/3 토</div>
-    <div class="day-tab" onclick="showDay('d10')" style="border-color:#7B5EA7;color:#5B3D8A;">10/4 일</div>
+
+  <div class="section-label">🏔 로키 일정</div>
+  <div class="tabs-scroll-wrap">
+    <div class="day-tabs">
+      <div class="day-tab active" onclick="showDay('d1')">9/25 금</div>
+      <div class="day-tab" onclick="showDay('d2')">9/26 토</div>
+      <div class="day-tab" onclick="showDay('d3')">9/27 일</div>
+      <div class="day-tab" onclick="showDay('d4')">9/28 월</div>
+      <div class="day-tab" onclick="showDay('d5')">9/29 화</div>
+      <div class="day-tab" onclick="showDay('d6')">9/30 수</div>
+      <div class="day-tab" onclick="showDay('dmap')" style="border-color:#1D9E75;color:#0F6E56;">🗺 지도</div>
+    </div>
+  </div>
+  <div class="section-label" style="margin-top:0.9rem;">🌌 옐로나이프 일정</div>
+  <div class="tabs-scroll-wrap">
+    <div class="day-tabs">
+      <div class="day-tab" onclick="showDay('d7')" style="border-color:#7B5EA7;color:#5B3D8A;">10/1 목</div>
+      <div class="day-tab" onclick="showDay('d8')" style="border-color:#7B5EA7;color:#5B3D8A;">10/2 금</div>
+      <div class="day-tab" onclick="showDay('d9')" style="border-color:#7B5EA7;color:#5B3D8A;">10/3 토</div>
+      <div class="day-tab" onclick="showDay('d10')" style="border-color:#7B5EA7;color:#5B3D8A;">10/4 일</div>
+    </div>
   </div>
 
   <!-- DAY 1 -->
@@ -1663,8 +1683,8 @@ function addTouchDrag(item, timeline) {
           '<div style="font-size:10px;color:#aaa;margin-top:4px;line-height:1.5;">GitHub → Settings → Developer settings → Fine-grained tokens → Contents: Read &amp; Write</div></div>'+
         '</div>'+
         '<div style="display:flex;gap:8px;margin-top:18px;">'+
-          '<button onclick="document.getElementById(\'gh-modal\').remove()" style="flex:1;padding:9px;border:1px solid #ddd;border-radius:7px;background:#f5f5f5;cursor:pointer;font-size:13px;">취소</button>'+
-          '<button id="gi-confirm" style="flex:2;padding:9px;border:none;border-radius:7px;background:#1D9E75;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">저장</button>'+
+          '<button onclick="document.getElementById(\'gh-modal\').remove()" style="flex:1;padding:9px;border:1px solid #ddd;border-radius:7px;background:#f5f5f5;cursor:pointer;font-size:13px;">나중에</button>'+
+          '<button id="gi-confirm" style="flex:2;padding:9px;border:none;border-radius:7px;background:#1D9E75;color:#fff;cursor:pointer;font-size:13px;font-weight:600;">연동 후 저장</button>'+
         '</div>'+
       '</div>';
     document.body.appendChild(m);
@@ -1683,12 +1703,24 @@ function addTouchDrag(item, timeline) {
   // 초기: 모든 contenteditable 비활성화 (브라우징 모드)
   document.querySelectorAll('[data-eid]').forEach(el => el.contentEditable = 'false');
 
+  function showToast(msg, color) {
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);'+
+      'background:'+(color||'#333')+';color:#fff;padding:8px 18px;border-radius:20px;'+
+      'font-size:13px;font-weight:500;z-index:9500;pointer-events:none;'+
+      'box-shadow:0 2px 12px rgba(0,0,0,0.25);white-space:nowrap;';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+  }
+
   function setEditMode(on) {
     document.querySelectorAll('[data-eid]').forEach(el => el.contentEditable = on ? 'true' : 'false');
     document.body.classList.toggle('edit-mode', on);
     fabToggle.textContent = on ? '✕' : '✏️';
     fabToggle.title = on ? '편집 종료' : '편집 모드';
     fabMenu.classList.toggle('open', on);
+    if (on) showToast('텍스트를 탭해서 수정하세요 ✏️', '#1D9E75');
   }
 
   const fabWrap = document.createElement('div');
@@ -1697,8 +1729,8 @@ function addTouchDrag(item, timeline) {
   const fabMenu = document.createElement('div');
   fabMenu.id = 'gh-fab-menu';
   fabMenu.innerHTML =
-    '<button id="gh-save-btn">💾 저장</button>'+
-    '<button id="gh-cfg-btn" title="GitHub 설정">⚙️</button>';
+    '<button id="gh-save-btn">☁️ 저장·공유</button>'+
+    '<button id="gh-exit-btn" style="padding:8px 14px;background:#f0f0f0;color:#444;border:none;border-radius:20px;font-size:13px;cursor:pointer;white-space:nowrap;">✕ 닫기</button>';
 
   const fabToggle = document.createElement('button');
   fabToggle.id = 'gh-fab-toggle';
@@ -1711,7 +1743,7 @@ function addTouchDrag(item, timeline) {
   document.body.appendChild(fabWrap);
 
   document.getElementById('gh-save-btn').addEventListener('click', saveEdits);
-  document.getElementById('gh-cfg-btn').addEventListener('click', showModal);
+  document.getElementById('gh-exit-btn').addEventListener('click', () => setEditMode(false));
 
   loadEdits();
 })();
