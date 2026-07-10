@@ -1599,6 +1599,18 @@ function addTouchDrag(item, timeline) {
   const getConfig = () => { try { return JSON.parse(localStorage.getItem('gh-sync')||'null'); } catch(e) { return null; } };
   const setConfig = c => localStorage.setItem('gh-sync', JSON.stringify(c));
 
+  // 편집 가능하게 만들 요소 자동 지정
+  [
+    '.day-title', '.day-badge', '.day-meta',
+    '.tl-time', '.tl-main', '.tl-sub',
+    '.tip-label', '.tip-text',
+    '.alert-text',
+    '.stay-name', '.stay-label',
+    '.cl-group-title', '.cl-text'
+  ].forEach(sel => document.querySelectorAll(sel).forEach(el => {
+    if (!el.hasAttribute('contenteditable')) el.setAttribute('contenteditable', 'true');
+  }));
+
   // 모든 편집 가능 요소에 안정적인 ID 부여
   let n = 0;
   document.querySelectorAll('[contenteditable]').forEach(el => { if (!el.dataset.eid) el.dataset.eid = 'e'+(n++); });
