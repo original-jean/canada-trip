@@ -1630,9 +1630,22 @@ function addTouchDrag(item, timeline) {
     const d = load();
     d.custom = (d.custom || []).filter(c => c.id !== id);
     if (d.states) delete d.states[id];
+    // built-in 항목도 영구 삭제: deleted 목록에 추가
+    d.deleted = d.deleted || [];
+    if (!d.deleted.includes(id)) d.deleted.push(id);
     save(d);
     item.remove();
   };
+
+  // 이전에 삭제된 built-in 항목 숨기기
+  (function removeDeleted() {
+    const d = load();
+    if (!d.deleted || !d.deleted.length) return;
+    d.deleted.forEach(id => {
+      const el = document.querySelector('.cl-item[data-id="' + id + '"]');
+      if (el) el.remove();
+    });
+  })();
 
   applyStates();
 })();
@@ -1752,6 +1765,8 @@ function addTouchDrag(item, timeline) {
     return scopeId + '_' + cls + (idx > 0 ? '_' + idx : '');
   }
   document.querySelectorAll('[contenteditable]').forEach(el => { if (!el.dataset.eid) el.dataset.eid = makeEid(el); });
+  // 초기 로드 시 편집 모드 OFF — contenteditable을 false로 시작해야 체크리스트 버튼 등이 정상 동작
+  document.querySelectorAll('[data-eid]').forEach(el => { el.contentEditable = 'false'; });
 
   function collect() {
     const fields = {};
