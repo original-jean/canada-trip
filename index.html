@@ -1727,6 +1727,12 @@ function addTouchDrag(item, timeline) {
 // ── GitHub Sync ─────────────────────────────────────────────────
 (function initGitHubSync() {
   let editsSha = null, isSaving = false;
+  const PAGE_VER = '20260924-3'; // HTML 업데이트 시 이 값을 바꾸면 localStorage 캐시 자동 초기화
+  // 버전이 다르면 저장된 편집 내용 무효화
+  try {
+    const stored = JSON.parse(localStorage.getItem('local-edits') || '{}');
+    if (stored._ver !== PAGE_VER) { localStorage.removeItem('local-edits'); }
+  } catch(e) { localStorage.removeItem('local-edits'); }
   const b64enc = s => btoa(unescape(encodeURIComponent(s)));
   const b64dec = s => decodeURIComponent(escape(atob(s.replace(/\s/g,''))));
   const getConfig = () => { try { return JSON.parse(localStorage.getItem('gh-sync')||'null'); } catch(e) { return null; } };
@@ -1797,7 +1803,11 @@ function addTouchDrag(item, timeline) {
 
   // 로컬 저장/불러오기
   function saveLocal() {
-    try { localStorage.setItem('local-edits', JSON.stringify(collect())); } catch(e) {}
+    try {
+      const data = collect();
+      data._ver = PAGE_VER;
+      localStorage.setItem('local-edits', JSON.stringify(data));
+    } catch(e) {}
   }
   function loadLocal() {
     try { const d = localStorage.getItem('local-edits'); if (d) applyEdits(JSON.parse(d)); } catch(e) {}
@@ -1809,7 +1819,11 @@ function addTouchDrag(item, timeline) {
     try {
       const d = await api(cfg, 'GET', 'edits.json');
       editsSha = d.sha;
-      applyEdits(JSON.parse(b64dec(d.content)));
+      const content = d.content ? b64dec(d.content) : '{}';
+      const parsed = JSON.parse(content || '{}');
+      // 버전이 다른 구버전 edits.json은 무시
+      if (parsed._ver && parsed._ver !== PAGE_VER) return;
+      if (Object.keys(parsed.fields || {}).length > 0) applyEdits(parsed);
     } catch(e) { loadLocal(); }
   }
 
