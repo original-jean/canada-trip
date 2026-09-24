@@ -1727,7 +1727,7 @@ function addTouchDrag(item, timeline) {
 // ── GitHub Sync ─────────────────────────────────────────────────
 (function initGitHubSync() {
   let editsSha = null, isSaving = false;
-  const PAGE_VER = '20260924-3'; // HTML 업데이트 시 이 값을 바꾸면 localStorage 캐시 자동 초기화
+  const PAGE_VER = '20260925-1'; // HTML 업데이트 시 이 값을 바꾸면 localStorage 캐시 자동 초기화
   // 버전이 다르면 저장된 편집 내용 무효화
   try {
     const stored = JSON.parse(localStorage.getItem('local-edits') || '{}');
@@ -1777,7 +1777,11 @@ function addTouchDrag(item, timeline) {
   function collect() {
     const fields = {};
     document.querySelectorAll('[data-eid]').forEach(el => fields[el.dataset.eid] = el.innerHTML);
-    const tabs = [...document.querySelectorAll('.day-tab')].map(t => t.textContent.trim());
+    const tabs = [...document.querySelectorAll('.day-tab')].map(t => {
+      const clone = t.cloneNode(true);
+      clone.querySelector('.wx')?.remove();
+      return clone.textContent.trim();
+    });
     return { fields, tabs };
   }
 
