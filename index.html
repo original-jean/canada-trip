@@ -12,6 +12,14 @@
     background: var(--color-background-primary);
     color: var(--color-text-secondary);
     font-size: 13px; cursor: pointer; transition: all 0.15s;
+    display: inline-flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 2px;
+  }
+  .wx { font-size: 10px; opacity: 0.82; line-height: 1; white-space: nowrap; }
+  .day-wx {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 13px; color: var(--color-text-secondary);
+    margin-left: 4px; white-space: nowrap;
   }
   .day-tab:hover { background: var(--color-background-secondary); }
   .day-tab.active {
@@ -160,9 +168,9 @@
     .day-tabs::-webkit-scrollbar { display: none; }
     .day-tab {
       flex-shrink: 0; font-size: 12px;
-      padding: 0 13px; min-height: 34px;
-      display: inline-flex; align-items: center;
+      padding: 4px 12px; min-height: 44px;
     }
+    .wx { font-size: 9.5px; }
 
     /* Day header */
     .day-header { flex-wrap: wrap; gap: 5px; margin-bottom: 0.9rem; padding-bottom: 0.6rem; }
@@ -1589,6 +1597,80 @@ function addTouchDrag(item, timeline) {
   };
 
   applyStates();
+})();
+
+// ── 실시간 날씨 (Open-Meteo, 무료) ──────────────────────────────
+(async function loadWeather() {
+  const WMO = {
+    0:'☀️',1:'🌤️',2:'⛅',3:'☁️',
+    45:'🌫️',48:'🌫️',
+    51:'🌦️',53:'🌦️',55:'🌦️',
+    61:'🌧️',63:'🌧️',65:'🌧️',
+    71:'❄️',73:'❄️',75:'❄️',77:'🌨️',
+    80:'🌦️',81:'🌧️',82:'🌧️',
+    85:'🌨️',86:'🌨️',
+    95:'⛈️',96:'⛈️',99:'⛈️'
+  };
+  const icon = code => WMO[code] || '🌡️';
+
+  const dayMap = {
+    d1:{date:'2026-09-25',loc:'banff'},
+    d2:{date:'2026-09-26',loc:'banff'},
+    d3:{date:'2026-09-27',loc:'banff'},
+    d4:{date:'2026-09-28',loc:'banff'},
+    d5:{date:'2026-09-29',loc:'banff'},
+    d6:{date:'2026-09-30',loc:'banff'},
+    d7:{date:'2026-10-01',loc:'yk'},
+    d8:{date:'2026-10-02',loc:'yk'},
+    d9:{date:'2026-10-03',loc:'yk'},
+    d10:{date:'2026-10-04',loc:'yk'}
+  };
+
+  try {
+    const base = 'https://api.open-meteo.com/v1/forecast?daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto';
+    const [banff, yk] = await Promise.all([
+      fetch(base+'&latitude=51.4968&longitude=-115.9281&start_date=2026-09-25&end_date=2026-09-30').then(r=>r.json()),
+      fetch(base+'&latitude=62.4540&longitude=-114.3718&start_date=2026-10-01&end_date=2026-10-04').then(r=>r.json())
+    ]);
+
+    function getW(loc, date) {
+      const d = loc==='banff' ? banff : yk;
+      const i = (d.daily?.time||[]).indexOf(date);
+      if (i<0) return null;
+      return {
+        icon: icon(d.daily.weathercode[i]),
+        max: Math.round(d.daily.temperature_2m_max[i]),
+        min: Math.round(d.daily.temperature_2m_min[i])
+      };
+    }
+
+    // 탭에 날씨 추가
+    document.querySelectorAll('.day-tab').forEach(tab => {
+      const m = (tab.getAttribute('onclick')||'').match(/showDay\('(d\d+)'\)/);
+      if (!m) return;
+      const w = getW(dayMap[m[1]]?.loc, dayMap[m[1]]?.date);
+      if (!w) return;
+      tab.querySelector('.wx')?.remove();
+      const wx = document.createElement('span');
+      wx.className = 'wx';
+      wx.textContent = w.icon+' '+w.max+'°/'+w.min+'°';
+      tab.appendChild(wx);
+    });
+
+    // 날별 헤더에 날씨 배지 추가
+    Object.entries(dayMap).forEach(([id, info]) => {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+      const w = getW(info.loc, info.date);
+      if (!w) return;
+      panel.querySelector('.day-wx')?.remove();
+      const badge = document.createElement('div');
+      badge.className = 'day-wx';
+      badge.innerHTML = w.icon+' <b style="color:var(--color-text-primary)">'+w.max+'°C</b> / '+w.min+'°C';
+      panel.querySelector('.day-header')?.appendChild(badge);
+    });
+
+  } catch(e) { /* 네트워크 오류 시 무시 */ }
 })();
 
 // ── GitHub Sync ─────────────────────────────────────────────────
