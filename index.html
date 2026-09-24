@@ -714,9 +714,9 @@
       </div>
       <div class="tl-item">
         <div class="tl-dot dot-activity"></div>
-        <div class="tl-time">15:00 – 17:00</div>
+        <div class="tl-time">16:10 탑승 · 17:30 하강</div>
         <div class="tl-main">밴프 곤돌라 탑승 (설퍼산 정상 전망)</div>
-        <div class="tl-sub">Sulphur Mountain 해발 2,281m · 왕복 8분 · 보드워크 산책 포함 · 사전 예약 권장 (온라인 할인)</div>
+        <div class="tl-sub">Sulphur Mountain 해발 2,281m · 16:10 올라가는 편 예약 완료 · 17:30 내려오는 편 예약 완료 · 보드워크 산책 포함</div>
       </div>
       <div class="tl-item">
         <div class="tl-dot dot-drive"></div>
@@ -777,9 +777,9 @@
       </div>
       <div class="tl-item">
         <div class="tl-dot dot-activity"></div>
-        <div class="tl-time">15:00 – 17:30</div>
-        <div class="tl-main">콜럼비아 아이스필드 설상차 체험</div>
-        <div class="tl-sub">올라가는 길에 탑승 완료 · 아이스 익스플로러 빙하 버스 1.5~2시간 · 사전 예약 권장</div>
+        <div class="tl-time">15:00 – 16:30</div>
+        <div class="tl-main">Top of the Athabasca Glacier Trailhead 방문</div>
+        <div class="tl-sub">설상차 대신 트레일헤드 직접 탐방 · 아타바스카 빙하 앞 트레일 걷기 · 빙하 바로 앞까지 도보 접근 가능 · 입장료 없음</div>
       </div>
       <div class="tl-item">
         <div class="tl-dot dot-drive"></div>
@@ -827,9 +827,9 @@
       </div>
       <div class="tl-item">
         <div class="tl-dot dot-activity"></div>
-        <div class="tl-time">09:30 – 12:30</div>
+        <div class="tl-time">09:45 탑승 예약 완료</div>
         <div class="tl-main">멀린 레이크 크루즈 (스피릿 아일랜드)</div>
-        <div class="tl-sub">클래식 크루즈 1.5시간 · 스피릿 아일랜드 하선 15분 · 9월 단풍+설봉 조합 최고 시기 · 사전 예약 필수</div>
+        <div class="tl-sub">09:45 탑승 예약 완료 · 클래식 크루즈 1.5시간 · 스피릿 아일랜드 하선 15분 · 9월 단풍+설봉 조합 최고 시기</div>
       </div>
       <div class="tl-item">
         <div class="tl-dot dot-food"></div>
@@ -1244,7 +1244,7 @@
         <div class="cl-item" data-id="b2"><input type="checkbox" class="cl-cb" data-key="b2"><span class="cl-text">모레인 레이크 셔틀 예약 (Parks Canada 또는 Moraine Lake Bus Co.)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
         <div class="cl-item" data-id="b3"><input type="checkbox" class="cl-cb" data-key="b3"><span class="cl-text">밴프 곤돌라 사전 예약 (온라인 할인)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
         <div class="cl-item" data-id="b4"><input type="checkbox" class="cl-cb" data-key="b4"><span class="cl-text">멀린 레이크 크루즈 예약 (banffjaspercollection.com)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
-        <div class="cl-item" data-id="b5"><input type="checkbox" class="cl-cb" data-key="b5"><span class="cl-text">콜럼비아 아이스필드 설상차 예약</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
+        <div class="cl-item" data-id="b5"><input type="checkbox" class="cl-cb" data-key="b5"><span class="cl-text">Athabasca Glacier Trailhead 방문 (설상차 대신 · 예약 불필요)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
         <div class="cl-item" data-id="b6"><input type="checkbox" class="cl-cb" data-key="b6"><span class="cl-text">오로라빌리지 뷰잉투어 예약 (2회: 10/1, 10/2)</span><button class="cl-del" onclick="clDelete(this)">✕</button></div>
       </div>
     </div>
@@ -1868,7 +1868,7 @@ function initMap() {
   marker(g2, 51.178,-115.571, '밴프 타운', '#1D9E75',
     'Day2 · 점심 식사 및 보우 폭포<br>밴프 애비뉴 중심가');
   marker(g2, 51.158,-115.553, '밴프 곤돌라 (설퍼산)', '#1D9E75',
-    'Day2 · 15:00~17:00<br>해발 2,281m 정상 전망<br>사전 예약 시 할인');
+    'Day2 · 16:10 탑승 · 17:30 하강<br>해발 2,281m 정상 전망<br>예약 완료 ✓');
 
   // Day 3
   var g3 = makeLayer(); dayLayers['d3'] = g3;
@@ -1882,8 +1882,8 @@ function initMap() {
     'Day3 · Lake Connector 셔틀 연결<br>페어몬트 샤토 배경 산책');
   marker(g3, 51.728,-116.515, '페이토 레이크', '#BA7517',
     'Day3 · 13:30~14:10<br>전망대까지 약 10분 걷기<br>9월 단풍 절경');
-  marker(g3, 52.220,-117.225, '콜럼비아 아이스필드', '#BA7517',
-    'Day3 · 15:00~17:30<br>아이스 익스플로러 설상차 체험<br>아타바스카 빙하 위 직접 탑승');
+  marker(g3, 52.220,-117.225, 'Athabasca Glacier Trailhead', '#BA7517',
+    'Day3 · 15:00~16:30<br>트레일헤드 직접 탐방<br>빙하 바로 앞 도보 접근 · 입장료 없음');
   marker(g3, 52.874,-118.081, '재스퍼 타운 (3박)', '#D85A30',
     '재스퍼 국립공원 중심<br>다크 스카이 프리저브 — 세계 2위 규모');
 
@@ -1897,7 +1897,7 @@ function initMap() {
   marker(g4, 52.903,-118.102, '피라미드 레이크', '#D85A30',
     'Day4 · 07:30 일출 감상<br>숙소 바로 앞 · 피라미드 아일랜드 반사 뷰');
   marker(g4, 52.694,-117.632, '멀린 레이크', '#D85A30',
-    'Day4 · 09:30~12:30<br>스피릿 아일랜드 크루즈 1.5시간<br>사전 예약 필수 — banffjaspercollection.com');
+    'Day4 · 09:45 탑승 예약 완료 ✓<br>스피릿 아일랜드 크루즈 1.5시간<br>banffjaspercollection.com');
   marker(g4, 52.448,-117.890, '아타바스카 폭포', '#D85A30',
     'Day4 · 이동 중 잠깐 정차<br>캐나다 로키 최대 수량 폭포<br>10~15분 관람');
   marker(g4, 51.178,-115.571, '밴프 타운 (4-5박)', '#378ADD',
